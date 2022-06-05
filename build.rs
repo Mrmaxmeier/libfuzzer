@@ -1,4 +1,8 @@
 fn build_and_link_libfuzzer() {
+    if std::env::var("CARGO_CFG_TARGET_FAMILY").unwrap() == "wasm" {
+        return;
+    }
+
     println!("cargo:rerun-if-env-changed=CUSTOM_LIBFUZZER_PATH");
     if let Ok(custom) = ::std::env::var("CUSTOM_LIBFUZZER_PATH") {
         println!("cargo:rerun-if-changed={custom}");
